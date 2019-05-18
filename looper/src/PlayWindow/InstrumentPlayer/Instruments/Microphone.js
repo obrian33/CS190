@@ -1,8 +1,11 @@
 import React from 'react';
 
 class Microphone extends React.Component {
+    id = 'microphone';
+    instructions = "Speak into your microphone";
+    
     render() {
-        return <div>whyyy</div>
+        return <div>microphone</div>
     }
 }
 

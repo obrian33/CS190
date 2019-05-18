@@ -8,7 +8,7 @@ import VirtualBass from './Instruments/VirtualBass';
 class InstrumentPlayer extends React.Component {
 
     changeInstrument = () => {
-        switch(this.props.currentInstrument) {
+        switch(this.props.currentInstrument.id) {
             default:
             case 'guitar':
                 return <VirtualGuitar></VirtualGuitar>;
@@ -20,13 +20,12 @@ class InstrumentPlayer extends React.Component {
                 return <VirtualPiano></VirtualPiano>;
             case 'bass':
                 return <VirtualBass></VirtualBass>;
-
         }
     }
 
     render() {
         return (
-            <div className="row"><div className="col">{this.changeInstrument()}</div></div>
+            <div className="col">{this.changeInstrument()}</div>
         );
     }
 }
