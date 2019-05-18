@@ -1,24 +1,22 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 class DashBoard extends React.Component {
 
     render() {
         const title = "Music Looper";
-        return (<div className="row">
-            <div className="col"> {title}</div>
+        const instruments = ['guitar', 'drum', 'microphone', 'piano', 'bass'];
+
+        return (<div className="row nav-background">
             <div className="col">
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav">
-                            <i onClick={() => this.props.changeInstrument('guitar')}> <FontAwesomeIcon className="fa-3x" icon="guitar" /></i>
-                            <i onClick={() => this.props.changeInstrument('drums')}> <FontAwesomeIcon className="fa-3x" icon="drum" /></i>
-                            <i> <FontAwesomeIcon className="fa-3x" icon="microphone" /></i>
-                        </div>
-                    </div>
-                </nav>
+                <h3>{title}</h3>
             </div>
+            {instruments.map((instrument, i) => {
+                return <div key={i} className="col">
+                    <img alt="" onClick={() => { this.props.changeInstrument(instrument) }} className="thing" src={`./assets/${instrument}.svg`}>
+                    </img>
+                </div>
+            })}
         </div>
 
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import VirtualGuitar from './Instruments/VirtualGuitar';
 import VirtualDrums from './Instruments/VirtualDrums';
+import Microphone from './Instruments/Microphone';
+import VirtualPiano from './Instruments/VirtualPiano';
+import VirtualBass from './Instruments/VirtualBass';
 
 class InstrumentPlayer extends React.Component {
 
@@ -9,8 +12,14 @@ class InstrumentPlayer extends React.Component {
             default:
             case 'guitar':
                 return <VirtualGuitar></VirtualGuitar>;
-            case 'drums':
-                return <VirtualDrums></VirtualDrums>
+            case 'drum':
+                return <VirtualDrums></VirtualDrums>;
+            case 'microphone':
+                return <Microphone></Microphone>;
+            case 'piano':
+                return <VirtualPiano></VirtualPiano>;
+            case 'bass':
+                return <VirtualBass></VirtualBass>;
 
         }
     }
