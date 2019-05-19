@@ -5,8 +5,10 @@
   font-family: Ubuntu sans-serif;
   src: url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 }
-.other-color {
-  color: red;
+.background-playwindow {
+  background-image: url('./assets/guitar-background.jpg');
+  background-size: cover;
+  height: 586px;
 }
 
 .nav-background {

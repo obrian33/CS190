@@ -4,7 +4,7 @@ import PlayWindow from './PlayWindow/PlayWindow.js';
 
 function App() {
   return (
-      <PlayWindow></PlayWindow>
+    <PlayWindow></PlayWindow>
   );
 }
 

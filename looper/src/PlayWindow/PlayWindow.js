@@ -3,14 +3,18 @@ import DashBoard from './DashBoard/DashBoard';
 import InstrumentPlayer from './InstrumentPlayer/InstrumentPlayer';
 import VirtualGuitar from './InstrumentPlayer/Instruments/VirtualGuitar';
 
-const DisplayInstrumentInstructions = ({playWindowState}) => {
+const DisplayInstrumentInstructions = ({ playWindowState }) => {
     return <div className="col">
-        {playWindowState.currentInstrument.instructions}
+        <h3>Instructions:</h3>
+        <div>
+            {playWindowState.currentInstrument.instructions}
+        </div>
     </div>
 };
 
-const DisplayTracks = ({playWindowState}) => {
+const DisplayTracks = ({ playWindowState }) => {
     return <div className="col">
+        <h3>Tracks</h3>
         {playWindowState.trackList}
     </div>
 };
@@ -38,7 +42,7 @@ class PlayWindow extends React.Component {
     }
 
     render() {
-        return (<div>
+        return (<div className="container-fluid">
             <DashBoard changeInstrument={this.updateInstrument}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
