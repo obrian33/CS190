@@ -25,7 +25,7 @@ class InstrumentPlayer extends React.Component {
 
     render() {
         return (
-            <div className="col">
+            <div className="col-6 text-center">
             <h3>Selected Instrument: </h3>
                 {this.changeInstrument()}
             </div>
