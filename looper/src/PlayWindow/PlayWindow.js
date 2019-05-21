@@ -32,13 +32,13 @@ const playTrack = (track, oscillator)=> {
 
 const RecordTrack = ({ addNewRecord }) => {
     return <div>
-        <button onClick={() => addNewRecord}>Record</button>
+        <button type="button" className="btn btn-primary" onClick={() => addNewRecord}>Record</button>
     </div>
 }
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
-
+    
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
