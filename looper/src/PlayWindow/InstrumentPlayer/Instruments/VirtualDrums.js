@@ -18,14 +18,14 @@ class VirtualDrums extends React.Component {
             't': new Audio('./assets/sounds/drums/kick-acoustic.wav')
     };
 
-    playNote = () => {
-        if (this.props.note && this.notes[this.props.note]) {
-            this.notes[this.props.note].play();
+    playNote = (note) => {
+        if (note && this.notes[note]) {
+            this.notes[note].play();
         }
     }
     
     render() {
-        return (<div>Drums{this.playNote()}</div>)
+        return (<div>Drums</div>)
     }
 }
 
