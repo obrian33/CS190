@@ -1,5 +1,6 @@
 import React from 'react';
 import DashBoard from './DashBoard/DashBoard';
+import TrackRecorder from './TrackRecorder/TrackRecorder';
 import InstrumentPlayer from './InstrumentPlayer/InstrumentPlayer';
 import VirtualGuitar from './InstrumentPlayer/Instruments/VirtualGuitar';
 
@@ -30,25 +31,25 @@ const playTrack = (track, oscillator)=> {
     });
 }
 
-const RecordTrack = ({ addNewRecord }) => {
-    return <div>
-        <button type="button" className="btn btn-primary" onClick={() => addNewRecord}>Record</button>
-    </div>
-}
-
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
+    audioCtx = new AudioContext();
+
     
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
         this.addTrack = this.addTrack.bind(this);
+        this.startRecording = this.startRecording.bind(this);
 
         this.state = {
             currentInstrument: this.chosenInstrument,
             instrumentInstructions: this.chosenInstrument.instrumentInstructions,
             trackList: this.chosenInstrument.trackList
         }
+    }
+
+    startRecording = () => {
     }
 
     addTrack = (newTrack) => {
@@ -74,7 +75,7 @@ class PlayWindow extends React.Component {
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
-                    <RecordTrack addNewRecord={this.state} oscillator={this.oscillator}></RecordTrack>
+                    <TrackRecorder addNewRecord={this.state} oscillator={this.oscillator}></TrackRecorder>
                 </div>
             </div>
         </div>
