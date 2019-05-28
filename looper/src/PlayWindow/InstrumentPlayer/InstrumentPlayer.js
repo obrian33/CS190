@@ -9,7 +9,7 @@ import VirtualBass from './Instruments/VirtualBass';
 class InstrumentPlayer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
             keyPressed: null
         };
 
@@ -28,7 +28,7 @@ class InstrumentPlayer extends React.Component {
             case 'Guitar':
                 return <VirtualGuitar></VirtualGuitar>;
             case 'Drums':
-                return <VirtualDrums></VirtualDrums>;
+                return <VirtualDrums isRecording={this.props.isRecording} previousTime={this.props.playWindowState.previousTime}></VirtualDrums>;
             case 'Microphone':
                 return <Microphone></Microphone>;
             case 'Piano':
@@ -45,7 +45,7 @@ class InstrumentPlayer extends React.Component {
                 {this.changeInstrument()}
                 <KeyboardEventHandler 
                 handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
-                onKeyEvent={(key) => this.props.currentInstrument.playNote(key)}
+                onKeyEvent={(key) => this.props.currentInstrument.id !== 'Microphone' ? this.props.currentInstrument.playNote(key, this.props) : null }
                 >
                 </KeyboardEventHandler>
             </div>

@@ -9,7 +9,6 @@ class VirtualDrums extends React.Component {
     // smashSnare = new Audio('./assets/sounds/drums/snare-smasher.wav');
     // acousticCrash = new Audio('./assets/sounds/drums/crash-acoustic.wav');
     // acousticKick = new Audio('./assets/sounds/drums/kick-acoustic.wav');
-
     notes = {
             'q': new Audio('./assets/sounds/drums/snare-acoustic01.wav'),
             'w': new Audio('./assets/sounds/drums/snare-dist02.wav'),
@@ -18,9 +17,18 @@ class VirtualDrums extends React.Component {
             't': new Audio('./assets/sounds/drums/kick-acoustic.wav')
     };
 
-    playNote = (note) => {
+    playNote = (note, props) => {
         if (note && this.notes[note]) {
             this.notes[note].play();
+            if (props && props.isRecording) {
+                let date = new Date();
+                let timestamp = date.getTime();
+                let timeDiff = timestamp - props.playWindowState.previousTime;
+                this.trackList.push({
+                    key: note,
+                    time: timeDiff
+                });
+            }
         }
     }
     

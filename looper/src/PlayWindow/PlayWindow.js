@@ -33,23 +33,35 @@ const playTrack = (track, oscillator)=> {
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
-    audioCtx = new AudioContext();
-
+    start;
+    stop;
     
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
         this.addTrack = this.addTrack.bind(this);
-        this.startRecording = this.startRecording.bind(this);
+        this.recordingAction = this.recordingAction.bind(this);
+        this.start = {buttonFunction: this.recordingAction,
+            buttonText: 'Record'};
+        this.stop = {buttonFunction: this.recordingAction,
+            buttonText: 'Stop'}
 
         this.state = {
             currentInstrument: this.chosenInstrument,
             instrumentInstructions: this.chosenInstrument.instrumentInstructions,
-            trackList: this.chosenInstrument.trackList
+            trackList: this.chosenInstrument.trackList,
+            isRecording: false,
+            previousTime: 0,
+            trackRecorderDisplayButton: this.start
         }
     }
 
-    startRecording = () => {
+    recordingAction = () => {
+        this.setState({
+            isRecording: !this.state.isRecording,
+            previousTime: new Date().getTime(),
+            trackRecorderDisplayButton: !this.state.isRecording ? this.stop : this.start
+        });
     }
 
     addTrack = (newTrack) => {
@@ -71,11 +83,11 @@ class PlayWindow extends React.Component {
             <DashBoard changeInstrument={this.updateInstrument}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer currentInstrument={this.state.currentInstrument}></InstrumentPlayer>
+                <InstrumentPlayer currentInstrument={this.state.currentInstrument} isRecording={this.state.isRecording} playWindowState={this.state}></InstrumentPlayer>
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
-                    <TrackRecorder addNewRecord={this.state} oscillator={this.oscillator}></TrackRecorder>
+                    <TrackRecorder trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ class Microphone extends React.Component {
     trackList = [];
     
     render() {
-        return <div>microphone</div>
+        return <div>Microphone</div>
     }
 }
 
