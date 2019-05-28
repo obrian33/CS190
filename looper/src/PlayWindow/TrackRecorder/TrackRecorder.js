@@ -1,15 +1,20 @@
 import React from 'react';
 
-const RecordingAction = ({trackRecorderDisplayButton}) => {
-    return <div>
-    <button type="button" className="btn btn-primary" onClick={() => trackRecorderDisplayButton.buttonFunction()}>{trackRecorderDisplayButton.buttonText}</button>
-</div>
-}
-
 class TrackRecoder extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.thing = React.createRef();
+    }
+
+    componentDidUpdate() {
+        this.thing.current.blur();
+    }
+
     render() {
-        return (<div><RecordingAction trackRecorderDisplayButton={this.props.trackRecorderDisplayButton}></RecordingAction></div>);
+        return (<div>
+            <button ref={this.thing} type="button" className="btn btn-primary" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
+        </div>);
     }
 }
 

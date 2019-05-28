@@ -43,7 +43,7 @@ class InstrumentPlayer extends React.Component {
             <div className="col-6 text-center">
                 <h3>Selected Instrument: </h3>
                 {this.changeInstrument()}
-                <KeyboardEventHandler 
+                <KeyboardEventHandler
                 handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
                 onKeyEvent={(key) => this.props.currentInstrument.id !== 'Microphone' ? this.props.currentInstrument.playNote(key, this.props) : null }
                 >
