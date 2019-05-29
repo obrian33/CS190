@@ -5,7 +5,6 @@ import VirtualPiano from '../InstrumentPlayer/Instruments/VirtualPiano';
 import VirtualBass from '../InstrumentPlayer/Instruments/VirtualBass';
 import Microphone from '../InstrumentPlayer/Instruments/Microphone';
 
-
 class DashBoard extends React.Component {
     constructor(props) {
         super(props);
