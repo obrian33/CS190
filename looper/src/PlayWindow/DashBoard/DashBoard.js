@@ -7,16 +7,19 @@ import Microphone from '../InstrumentPlayer/Instruments/Microphone';
 
 
 class DashBoard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
+    }
 
     render() {
         const title = "Music Looper";
-        const instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
 
         return (<div className="row nav-background">
             <div className="col other-color">
                 <h3>{title}</h3>
             </div>
-            {instruments.map((instrument, i) => {
+            {this.instruments.map((instrument, i) => {
                 return <div key={i} className="col other-color">
                     <img alt="" onClick={() => { this.props.changeInstrument(instrument) }} className="thing" src={`./assets/${instrument.id}.svg`}>
                     </img>
