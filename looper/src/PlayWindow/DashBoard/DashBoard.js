@@ -10,7 +10,7 @@ class DashBoard extends React.Component {
         super(props);
         this.instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
     }
-
+    
     render() {
         const title = "Music Looper";
 

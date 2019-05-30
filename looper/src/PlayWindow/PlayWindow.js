@@ -13,17 +13,17 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     </div>
 };
 
-const DisplayTracks = ({ playWindowState, oscillator }) => {
-    return <div>
-        {playWindowState.trackList.map((track, index) => {
-            return <div key={index}>
-                <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
-                <i onClick={() => playTrack(track, oscillator)}>fdsfsadf</i>
-            </div>
-        })
-        }
-    </div>
-}
+// const DisplayTracks = ({ playWindowState, oscillator }) => {
+//     return <div>
+//         {playWindowState.trackList.map((track, index) => {
+//             return <div key={index}>
+//                 <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
+//                 <i onClick={() => playTrack(track, oscillator)}></i>
+//             </div>
+//         })
+//         }
+//     </div>
+// }
 
 const playTrack = (track, oscillator)=> {
     track.forEach(value => {
@@ -33,14 +33,17 @@ const playTrack = (track, oscillator)=> {
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
+    trackList = [];
     start;
     stop;
     
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
-        this.addTrack = this.addTrack.bind(this);
-        this.recordingAction = this.recordingAction.bind(this);
+        this.getKey = this.getKey.bind(this);
+        this.getCurrentTrack = this.getCurrentTrack.bind(this);
+        this.recordingAction = this.recordingAction.bind(this);        
+
         this.start = {buttonFunction: this.recordingAction,
             buttonText: 'Record'};
         this.stop = {buttonFunction: this.recordingAction,
@@ -49,32 +52,44 @@ class PlayWindow extends React.Component {
         this.state = {
             currentInstrument: this.chosenInstrument,
             instrumentInstructions: this.chosenInstrument.instrumentInstructions,
-            trackList: this.chosenInstrument.trackList,
+            trackList: this.trackList,
             isRecording: false,
             previousTime: 0,
-            trackRecorderDisplayButton: this.start
+            trackRecorderDisplayButton: this.start,
+            keyPressed: null
         }
     }
 
-    recordingAction = () => {
+    recordingAction = (currentTrack) => {
+        if (this.state.isRecording) {
+            // this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
+        }
+        
         this.setState({
             isRecording: !this.state.isRecording,
             previousTime: new Date().getTime(),
-            trackRecorderDisplayButton: !this.state.isRecording ? this.stop : this.start
-        });
-    }
-
-    addTrack = (newTrack) => {
-        this.setState({
-            trackList: this.state.trackList.push(newTrack)
+            trackRecorderDisplayButton: !this.state.isRecording ? this.stop : this.start,
+            trackList: this.trackList
         });
     }
 
     updateInstrument = (chosenInstrument) => {
+        if (chosenInstrument !== this.state.currentInstrument) {
+            this.setState({
+                currentInstrument: chosenInstrument,
+                instrumentInstructions: chosenInstrument.instructions
+            });
+        }
+    }
+    
+    getKey = (key) => {
+        this.setState({keyPressed: key});
+    }
+
+    getCurrentTrack = (currentTrack) => {
+        this.trackList.push(currentTrack);
         this.setState({
-            currentInstrument: chosenInstrument,
-            instrumentInstructions: chosenInstrument.instructions,
-            trackList: chosenInstrument.trackList
+            trackList: this.trackList
         });
     }
 
@@ -83,11 +98,11 @@ class PlayWindow extends React.Component {
             <DashBoard changeInstrument={this.updateInstrument}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer currentInstrument={this.state.currentInstrument} isRecording={this.state.isRecording} playWindowState={this.state}></InstrumentPlayer>
+                <InstrumentPlayer getKey={this.getKey} playWindowState={this.state}></InstrumentPlayer>
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
-                    <DisplayTracks playWindowState={this.state}></DisplayTracks>
-                    <TrackRecorder trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
+                    {/* <DisplayTracks playWindowState={this.state}></DisplayTracks> */}
+                    <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                 </div>
             </div>
         </div>

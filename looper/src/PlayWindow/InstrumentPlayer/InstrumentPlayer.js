@@ -6,46 +6,45 @@ import Microphone from './Instruments/Microphone';
 import VirtualPiano from './Instruments/VirtualPiano';
 import VirtualBass from './Instruments/VirtualBass';
 
+const InstrumentSelector = ({playWindowState, state}) => {
+    switch (playWindowState.currentInstrument.id) {
+        default:
+        case 'Guitar':
+            return <VirtualGuitar></VirtualGuitar>;
+        case 'Drums':
+            return <VirtualDrums playWindowState={playWindowState} keyPressed={state}></VirtualDrums>;
+        case 'Microphone':
+            return <Microphone></Microphone>;
+        case 'Piano':
+            return <VirtualPiano></VirtualPiano>;
+        case 'Bass':
+            return <VirtualBass></VirtualBass>;
+    }
+}
+
 class InstrumentPlayer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            keyPressed: null
-        };
 
-        this.updateKeypressed = this.updateKeypressed.bind(this);
-    }
-
-    updateKeypressed = (key) => { 
-        this.setState({
-            keyPressed: key
-        })
-    }
-
-    changeInstrument = () => {
-        switch (this.props.currentInstrument.id) {
-            default:
-            case 'Guitar':
-                return <VirtualGuitar></VirtualGuitar>;
-            case 'Drums':
-                return <VirtualDrums isRecording={this.props.isRecording} previousTime={this.props.playWindowState.previousTime}></VirtualDrums>;
-            case 'Microphone':
-                return <Microphone></Microphone>;
-            case 'Piano':
-                return <VirtualPiano></VirtualPiano>;
-            case 'Bass':
-                return <VirtualBass></VirtualBass>;
+        this.state = {
+            key: null
         }
+    }
+
+    shouldComponentUpdate(nextProps) {
+        // console.log(nextProps);
+        // console.log(this.props.playWindowState.isRecording === nextProps.playWindowState.isRecording);
+        return this.props.playWindowState.isRecording === nextProps.playWindowState.isRecording;
     }
 
     render() {
         return (
             <div className="col-6 text-center">
                 <h3>Selected Instrument: </h3>
-                {this.changeInstrument()}
+                <InstrumentSelector playWindowState={this.props.playWindowState} state={this.state}></InstrumentSelector>
                 <KeyboardEventHandler
                 handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
-                onKeyEvent={(key) => this.props.currentInstrument.id !== 'Microphone' ? this.props.currentInstrument.playNote(key, this.props) : null }
+                onKeyEvent={(key) => {this.props.getKey(key);this.setState({key: key})}}
                 >
                 </KeyboardEventHandler>
             </div>
