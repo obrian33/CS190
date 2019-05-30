@@ -13,21 +13,22 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     </div>
 };
 
-// const DisplayTracks = ({ playWindowState, oscillator }) => {
-//     return <div>
-//         {playWindowState.trackList.map((track, index) => {
-//             return <div key={index}>
-//                 <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
-//                 <i onClick={() => playTrack(track, oscillator)}></i>
-//             </div>
-//         })
-//         }
-//     </div>
-// }
+const DisplayTracks = ({ playWindowState }) => {
+    return <div>
+        {playWindowState.trackList.map((track, index) => {
+            return <div key={index}>
+                <i onClick={() => console.log(track)}>
+                    <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
+                </i>
+            </div>
+        })
+        }
+    </div>
+}
 
-const playTrack = (track, oscillator)=> {
+const playTrack = (track) => {
     track.forEach(value => {
-        oscillator.frequency.value = value;
+        value.play();
     });
 }
 
@@ -36,18 +37,22 @@ class PlayWindow extends React.Component {
     trackList = [];
     start;
     stop;
-    
+
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
         this.getKey = this.getKey.bind(this);
         this.getCurrentTrack = this.getCurrentTrack.bind(this);
-        this.recordingAction = this.recordingAction.bind(this);        
+        this.recordingAction = this.recordingAction.bind(this);
 
-        this.start = {buttonFunction: this.recordingAction,
-            buttonText: 'Record'};
-        this.stop = {buttonFunction: this.recordingAction,
-            buttonText: 'Stop'}
+        this.start = {
+            buttonFunction: this.recordingAction,
+            buttonText: 'Record'
+        };
+        this.stop = {
+            buttonFunction: this.recordingAction,
+            buttonText: 'Stop'
+        }
 
         this.state = {
             currentInstrument: this.chosenInstrument,
@@ -64,7 +69,7 @@ class PlayWindow extends React.Component {
         if (this.state.isRecording) {
             // this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
         }
-        
+
         this.setState({
             isRecording: !this.state.isRecording,
             previousTime: new Date().getTime(),
@@ -81,7 +86,7 @@ class PlayWindow extends React.Component {
             });
         }
     }
-    
+
     getKey = (key) => {
         this.setState({keyPressed: key});
     }
@@ -101,7 +106,7 @@ class PlayWindow extends React.Component {
                 <InstrumentPlayer getKey={this.getKey} playWindowState={this.state}></InstrumentPlayer>
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
-                    {/* <DisplayTracks playWindowState={this.state}></DisplayTracks> */}
+                    <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                 </div>
             </div>

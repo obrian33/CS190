@@ -13,20 +13,18 @@ class VirtualDrums extends React.Component {
     };
 
     playNote = () => {
-        // console.log(this.props.playWindowState);
         if (this.props.keyPressed.key && this.notes[this.props.keyPressed.key]) {
+            // this.props.getAudioFile(this.notes[this.props.keyPressed.key]);
             this.notes[this.props.keyPressed.key].play();
         }
     }
 
     shouldComponentUpdate(nextProps) {
-        // console.log(this.props);
-        // console.log(nextProps);
         return nextProps.playWindowState.isRecording === this.props.playWindowState.isRecording;
     }
     
     componentDidUpdate() {
-        this.playNote()
+        this.playNote();
     }
     
     render() {
