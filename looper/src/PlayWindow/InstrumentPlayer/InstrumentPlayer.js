@@ -18,7 +18,7 @@ const InstrumentSelector = ({playWindowState, state}) => {
         case 'Piano':
             return <VirtualPiano></VirtualPiano>;
         case 'Bass':
-            return <VirtualBass></VirtualBass>;
+            return <VirtualBass playWindowState={playWindowState} keyPressed={state}></VirtualBass>;
     }
 }
 
@@ -43,7 +43,7 @@ class InstrumentPlayer extends React.Component {
                 <h3>Selected Instrument: </h3>
                 <InstrumentSelector playWindowState={this.props.playWindowState} state={this.state}></InstrumentSelector>
                 <KeyboardEventHandler
-                handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
+                handleKeys={['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']']}
                 onKeyEvent={(key) => {this.props.getKey(key);this.setState({key: key})}}
                 >
                 </KeyboardEventHandler>
