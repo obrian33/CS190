@@ -10,7 +10,6 @@ class Microphone extends React.Component {
     constructor(props) {
         super(props);
         this.soundClip = React.createRef();
-        this.recordButton = React.createRef();
         this.handleClick = this.handleClick.bind(this);
         this.recording = false;
 
@@ -18,9 +17,9 @@ class Microphone extends React.Component {
         this.mediaRecorder = null;
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({"audio": true}).then((stream) => {
-                this.mediaRecorder = new MediaRecorder(stream)
-                mediaRecorder.ondataavailable = (theEvent) => {
-                    buffer.push(theEvent.data)
+                this.mediaRecorder = new MediaRecorder(stream);
+                this.mediaRecorder.ondataavailable = (theEvent) => {
+                    this.buffer.push(theEvent.data)
                 }
             })
         }
@@ -87,10 +86,9 @@ class Microphone extends React.Component {
     }
 
     render() {
-        const {text} = this.state
         return <div>Microphone
             <br/>
-            <button ref={this.recordButton}>Record</button>
+            <button>Record</button>
             <div ref={this.soundClip}></div>
         </div>
         /*
