@@ -67,7 +67,7 @@ class PlayWindow extends React.Component {
         }
     }
 
-    recordingAction = (currentTrack) => {
+    recordingAction = () => {
         if (this.state.isRecording) {
             // this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
         }
@@ -84,7 +84,8 @@ class PlayWindow extends React.Component {
         if (chosenInstrument !== this.state.currentInstrument) {
             this.setState({
                 currentInstrument: chosenInstrument,
-                instrumentInstructions: chosenInstrument.instructions
+                instrumentInstructions: chosenInstrument.instructions,
+                trackRecorderDisplayButton: this.start
             });
         }
     }
