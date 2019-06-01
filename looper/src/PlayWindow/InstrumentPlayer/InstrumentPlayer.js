@@ -16,8 +16,12 @@ class InstrumentPlayer extends React.Component {
                 <h3>Selected Instrument: </h3>
                 {this.props.playWindowState.currentInstrument.id}
                 <KeyboardEventHandler
-                handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
-                onKeyEvent={(key) => {this.props.getAudioFile(this.props.playWindowState.currentInstrument.notes[key]);this.props.playWindowState.currentInstrument.playNote(key)}}
+                    handleKeys={['q', 'w', 'e', 'r', 't', 'y']}
+                    onKeyEvent={(key) => {
+                        this.props.getAudioFile(this.props.playWindowState.currentInstrument.notes[key]);
+                        this.props.playWindowState.currentInstrument.playNote(key);
+                        }
+                    }
                 >
                 </KeyboardEventHandler>
             </div>

@@ -2,8 +2,10 @@ import React from 'react';
 
 class TrackRecoder extends React.Component {
     trackList = [];
-    currentTrack = {id: null,
-    data: []};
+    currentTrack = {
+        id: null,
+        data: []
+    };
 
     constructor(props) {
         super(props);

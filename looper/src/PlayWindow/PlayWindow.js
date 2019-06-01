@@ -3,6 +3,10 @@ import DashBoard from './DashBoard/DashBoard';
 import TrackRecorder from './TrackRecorder/TrackRecorder';
 import InstrumentPlayer from './InstrumentPlayer/InstrumentPlayer';
 import VirtualGuitar from './InstrumentPlayer/Instruments/VirtualGuitar';
+import VirtualDrums from './InstrumentPlayer/Instruments/VirtualDrums';
+import VirtualPiano from './InstrumentPlayer/Instruments/VirtualPiano';
+import VirtualBass from './InstrumentPlayer/Instruments/VirtualBass';
+import Microphone from './InstrumentPlayer/Instruments/Microphone';
 
 const DisplayInstrumentInstructions = ({ playWindowState }) => {
     return <div className="col-3 text-center">
@@ -36,6 +40,7 @@ const playTrack = (track) => {
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
+    instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
     trackList = [];
     start;
     stop;
@@ -69,7 +74,7 @@ class PlayWindow extends React.Component {
 
     recordingAction = () => {
         if (this.state.isRecording) {
-            // this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
+            this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
         }
 
         this.setState({
@@ -81,6 +86,7 @@ class PlayWindow extends React.Component {
     }
 
     updateInstrument = (chosenInstrument) => {
+        this.chosenInstrument = chosenInstrument;
         if (chosenInstrument !== this.state.currentInstrument) {
             this.setState({
                 currentInstrument: chosenInstrument,
@@ -96,6 +102,7 @@ class PlayWindow extends React.Component {
 
     getCurrentTrack = (currentTrack) => {
         this.trackList.push(currentTrack);
+        currentTrack.data.forEach(x => this.chosenInstrument.trackList.push(x));
         this.setState({
             trackList: this.trackList
         });
@@ -103,7 +110,7 @@ class PlayWindow extends React.Component {
 
     render() {
         return (<div className="container-fluid">
-            <DashBoard changeInstrument={this.updateInstrument}></DashBoard>
+            <DashBoard changeInstrument={this.updateInstrument} instruments={this.instruments}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
                 <InstrumentPlayer getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
@@ -111,6 +118,7 @@ class PlayWindow extends React.Component {
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
+                    <button className="btn btn-primary" onClick={() => console.log(this.instruments)}>Play All</button>
                 </div>
             </div>
         </div>
