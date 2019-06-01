@@ -12,7 +12,7 @@ class VirtualDrums {
 
     playNote = (keyPressed) => {
         if (keyPressed && this.notes[keyPressed]) {
-            this.notes[keyPressed].play();
+            this.notes[keyPressed].cloneNode(true).play();
         }
     }
 }
