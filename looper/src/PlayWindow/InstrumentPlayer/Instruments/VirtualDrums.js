@@ -1,6 +1,4 @@
-import React from 'react';
-
-class VirtualDrums extends React.Component {
+class VirtualDrums {
     id = 'Drums';
     instructions = "The keys are mapped accordingly: W is the snare drum, A is the bass drum, S is the hi-hat, D is a cymbal";
 
@@ -12,23 +10,10 @@ class VirtualDrums extends React.Component {
             't': new Audio('./assets/sounds/drums/kick-acoustic.wav')
     };
 
-    playNote = () => {
-        if (this.props.keyPressed.key && this.notes[this.props.keyPressed.key]) {
-            // this.props.getAudioFile(this.notes[this.props.keyPressed.key]);
-            this.notes[this.props.keyPressed.key].play();
+    playNote = (keyPressed) => {
+        if (keyPressed && this.notes[keyPressed]) {
+            this.notes[keyPressed].play();
         }
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return nextProps.playWindowState.isRecording === this.props.playWindowState.isRecording;
-    }
-    
-    componentDidUpdate() {
-        this.playNote();
-    }
-    
-    render() {
-        return (<div>Drums</div>)
     }
 }
 

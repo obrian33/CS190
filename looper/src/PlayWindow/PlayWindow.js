@@ -17,7 +17,7 @@ const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
-                <i onClick={() => console.log(track)}>
+                <i onClick={() => playTrack(track)}>
                     <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
                 </i>
             </div>
@@ -27,8 +27,10 @@ const DisplayTracks = ({ playWindowState }) => {
 }
 
 const playTrack = (track) => {
-    track.forEach(value => {
-        value.play();
+    track.data.forEach(value => {
+        if (value.currentAudioFile) {
+            value.currentAudioFile.cloneNode(true).play();
+        }
     });
 }
 
@@ -41,7 +43,7 @@ class PlayWindow extends React.Component {
     constructor(props) {
         super(props);
         this.updateInstrument = this.updateInstrument.bind(this);
-        this.getKey = this.getKey.bind(this);
+        this.getAudioFile = this.getAudioFile.bind(this);
         this.getCurrentTrack = this.getCurrentTrack.bind(this);
         this.recordingAction = this.recordingAction.bind(this);
 
@@ -61,7 +63,7 @@ class PlayWindow extends React.Component {
             isRecording: false,
             previousTime: 0,
             trackRecorderDisplayButton: this.start,
-            keyPressed: null
+            currentAudioFile: null
         }
     }
 
@@ -87,8 +89,8 @@ class PlayWindow extends React.Component {
         }
     }
 
-    getKey = (key) => {
-        this.setState({keyPressed: key});
+    getAudioFile = (audioFile) => {
+        this.setState({currentAudioFile: audioFile});
     }
 
     getCurrentTrack = (currentTrack) => {
@@ -103,7 +105,7 @@ class PlayWindow extends React.Component {
             <DashBoard changeInstrument={this.updateInstrument}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer getKey={this.getKey} playWindowState={this.state}></InstrumentPlayer>
+                <InstrumentPlayer getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
