@@ -5,18 +5,18 @@ class VirtualPiano extends React.Component {
     instructions = "The keys are mapped accordingly: ";
 
     notes = {
-            'q': new Audio('./assets/sounds/Piano/Piano.mf.C4.wav'),
-            'w': new Audio('./assets/sounds/Piano/Piano.mf.Db4.wav'),
-            'e': new Audio('./assets/sounds/Piano/Piano.mf.D4.wav'),
-            'r': new Audio('./assets/sounds/Piano/Piano.mf.Eb4.wav'),
-            't': new Audio('./assets/sounds/Piano/Piano.mf.E4.wav'),
-            'y': new Audio('./assets/sounds/Piano/Piano.mf.F4.wav'),
-            'u': new Audio('./assets/sounds/Piano/Piano.mf.Gb4.wav'),
-            'i': new Audio('./assets/sounds/Piano/Piano.mf.G4.wav'),
-            'o': new Audio('./assets/sounds/Piano/Piano.mf.Ab4.wav'),
-            'p': new Audio('./assets/sounds/Piano/Piano.mf.A4.wav'),
-            '[': new Audio('./assets/sounds/Piano/Piano.mf.Bb4.wav'),
-            ']': new Audio('./assets/sounds/Piano/Piano.mf.B4.wav')
+            'q': new Audio('./assets/sounds/Piano/Piano.ff.C4.wav'),
+            'w': new Audio('./assets/sounds/Piano/Piano.ff.Db4.wav'),
+            'e': new Audio('./assets/sounds/Piano/Piano.ff.D4.wav'),
+            'r': new Audio('./assets/sounds/Piano/Piano.ff.Eb4.wav'),
+            't': new Audio('./assets/sounds/Piano/Piano.ff.E4.wav'),
+            'y': new Audio('./assets/sounds/Piano/Piano.ff.F4.wav'),
+            'u': new Audio('./assets/sounds/Piano/Piano.ff.Gb4.wav'),
+            'i': new Audio('./assets/sounds/Piano/Piano.ff.G4.wav'),
+            'o': new Audio('./assets/sounds/Piano/Piano.ff.Ab4.wav'),
+            'p': new Audio('./assets/sounds/Piano/Piano.ff.A4.wav'),
+            '[': new Audio('./assets/sounds/Piano/Piano.ff.Bb4.wav'),
+            ']': new Audio('./assets/sounds/Piano/Piano.ff.B4.wav')
     };
 
     playNote = (note) => {
