@@ -3,6 +3,7 @@ import React from 'react';
 class VirtualBass extends React.Component {
     id = 'Bass';
     instructions = "The keys are mapped accordingly: Q is C1, W is C#1, E is D1, R is D#1, T is E1, Y is F1, U is F#1, I is G1, O is G#1, P is A1, [ is A#1, ] is B1";
+    trackList = [];
 
     notes = {
         'q': new Audio("./assets/sounds/bass/bassC1.wav"), 
@@ -19,22 +20,10 @@ class VirtualBass extends React.Component {
         ']': new Audio("./assets/sounds/bass/bassB1.wav")
     };
 
-    playNote = (note) => {
-        if (this.props.keyPressed.key && this.notes[this.props.keyPressed.key]) {
-            this.notes[this.props.keyPressed.key].play();
+    playNote = (keyPressed) => {
+        if (keyPressed && this.notes[keyPressed]) {
+            this.notes[keyPressed].cloneNode(true).play();
         }
-    }
-    
-    shouldComponentUpdate(nextProps) {
-        return nextProps.playWindowState.isRecording === this.props.playWindowState.isRecording;
-    }
-
-    componentDidUpdate() {
-        this.playNote();
-    }
-
-    render() {
-        return (<div>Bass</div>)
     }
 }
 

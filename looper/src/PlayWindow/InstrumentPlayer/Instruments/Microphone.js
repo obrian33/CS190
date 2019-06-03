@@ -1,20 +1,10 @@
-import React from 'react';
-
-class Microphone extends React.Component {
+class Microphone {
     id = 'Microphone';
     instructions = "Speak into your microphone";
-    state = {
-        text: "Record"
-    }
+    mediaRecorder = null;
+    buffer = [];
 
-    constructor(props) {
-        super(props);
-        this.soundClip = React.createRef();
-        this.handleClick = this.handleClick.bind(this);
-        this.recording = false;
-
-        this.buffer = [];
-        this.mediaRecorder = null;
+    constructor() {
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({"audio": true}).then((stream) => {
                 this.mediaRecorder = new MediaRecorder(stream);
@@ -34,7 +24,7 @@ class Microphone extends React.Component {
                 const mediaRecorder = new MediaRecorder(stream);
                 
                 // Create a buffer to hold the microphone input
-                var buffer = [];
+                let buffer = [];
                 mediaRecorder.ondataavailable = (theEvent) => {
                     buffer.push(theEvent.data);
                 }
@@ -43,11 +33,9 @@ class Microphone extends React.Component {
                 // for new recordings.
                 mediaRecorder.onstop = (event) => {
                     const audio = new Audio();
-                    audio.setAttribute("controls", "");
-                    this.soundClip.append(audio);
-                    this.soundClip.append("<br />");
-                    //$("#sound-clip").append(audio);
-                    //$("#sound-clip").append("<br />");
+                    // audio.setAttribute("controls", "");
+                    // this.soundClip.append(audio);
+                    // this.soundClip.append("<br />");
         
                     // Blob object to contain buffer's contents
                     const blob = new Blob(buffer, {"type": "audio/ogg; codecs=opus"});
@@ -60,13 +48,13 @@ class Microphone extends React.Component {
                 if (this.recording) {
                     mediaRecorder.stop();
                     this.recording = false;
-                    this.changeText("Record");
+                    // this.changeText("Record");
                     //this.recordButton.html("Record");
                 }
                 else {
                     mediaRecorder.start();
                     this.recording = true;
-                    this.changeText("Stop");
+                    // this.changeText("Stop");
                     //this.recordButton.html("Stop");
                 }
             // Raise alert that the microphone cannot be accessed. 
@@ -79,25 +67,6 @@ class Microphone extends React.Component {
         else {
             alert("Your browser cannot access your of your media devices. Please update your browser.");
         }
-    }
-
-    changeText(text) {
-        this.setState({text});
-    }
-
-    render() {
-        return <div>Microphone
-            <br/>
-            <button>Record</button>
-            <div ref={this.soundClip}></div>
-        </div>
-        /*
-        return <div>Microphone
-            <br/>
-            <button onClick={this.handleClick} ref={this.recordButton}>Record</button>
-            <div ref={this.soundClip}></div>
-        </div>
-        */
     }
 }
 
