@@ -1,6 +1,7 @@
 class VirtualPiano {
     id = 'Piano';
     instructions = "The keys are mapped accordingly: ";
+    trackList = [];
 
     notes = {
             'q': new Audio('./assets/sounds/Piano/Piano.ff.C4.wav'),
