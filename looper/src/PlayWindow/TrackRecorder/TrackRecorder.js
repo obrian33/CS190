@@ -22,8 +22,10 @@ class TrackRecoder extends React.Component {
         } else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
-            this.currentTrack = {id: null,
-                data: []};
+            this.currentTrack = {
+                id: null,
+                data: []
+            };
         }
         this.thing.current.blur();
     }
