@@ -1,6 +1,4 @@
-import React from 'react';
-
-class VirtualPiano extends React.Component {
+class VirtualPiano {
     id = 'Piano';
     instructions = "The keys are mapped accordingly: ";
 
@@ -19,23 +17,10 @@ class VirtualPiano extends React.Component {
             ']': new Audio('./assets/sounds/Piano/Piano.ff.B4.wav')
     };
 
-    playNote = (note) => {
-        if (this.props.keyPressed.key && this.notes[this.props.keyPressed.key]) {
-            // this.props.getAudioFile(this.notes[this.props.keyPressed.key]);
-            this.notes[this.props.keyPressed.key].play();
+    playNote = (keyPressed) => {
+        if (keyPressed && this.notes[keyPressed]) {
+            this.notes[keyPressed].cloneNode(true).play();
         }
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return nextProps.playWindowState.isRecording === this.props.playWindowState.isRecording;
-    }
-    
-    componentDidUpdate() {
-        this.playNote();
-    }
-    
-    render() {
-        return (<div>Piano</div>)
     }
 }
 
