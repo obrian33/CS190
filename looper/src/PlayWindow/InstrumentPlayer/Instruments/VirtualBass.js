@@ -11,7 +11,7 @@ class VirtualBass extends React.Component {
         'r': new Audio("./assets/sounds/bass/bassDSharp1.wav"), 
         't': new Audio("./assets/sounds/bass/bassE1.wav"), 
         'y': new Audio("./assets/sounds/bass/bassF1.wav"), 
-        'u': new Audio("./assets/sounds/bass/bassF#1.wav"), 
+        'u': new Audio("./assets/sounds/bass/bassFSharp1.wav"), 
         'i': new Audio("./assets/sounds/bass/bassG1.wav"), 
         'o': new Audio("./assets/sounds/bass/bassGSharp1.wav"), 
         'p': new Audio("./assets/sounds/bass/bassA1.wav"), 

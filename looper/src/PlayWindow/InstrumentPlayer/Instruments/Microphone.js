@@ -13,17 +13,18 @@ class Microphone extends React.Component {
         this.recordButton = React.createRef();
         this.handleClick = this.handleClick.bind(this);
         this.recording = false;
-
+/*
         this.buffer = [];
         this.mediaRecorder = null;
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({"audio": true}).then((stream) => {
                 this.mediaRecorder = new MediaRecorder(stream)
-                mediaRecorder.ondataavailable = (theEvent) => {
-                    buffer.push(theEvent.data)
+                this.mediaRecorder.ondataavailable = (theEvent) => {
+                    this.buffer.push(theEvent.data);
                 }
             })
         }
+        */
     }
     
     handleClick() {
