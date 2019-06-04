@@ -68,7 +68,8 @@ class PlayWindow extends React.Component {
             isRecording: false,
             previousTime: 0,
             trackRecorderDisplayButton: this.start,
-            currentAudioFile: null
+            currentAudioFile: null,
+            blah: null
         }
     }
 
@@ -97,7 +98,7 @@ class PlayWindow extends React.Component {
     }
 
     getAudioFile = (audioFile) => {
-        this.setState({currentAudioFile: audioFile});
+        this.setState({ currentAudioFile: audioFile });
     }
 
     getCurrentTrack = (currentTrack) => {
@@ -106,6 +107,11 @@ class PlayWindow extends React.Component {
         this.setState({
             trackList: this.trackList
         });
+    }
+
+    playBlob = () => {
+        const audio = new Audio(this.state.currentAudioFile.blobURL);
+        audio.play();
     }
 
     render() {
@@ -118,7 +124,7 @@ class PlayWindow extends React.Component {
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
-                    <button className="btn btn-primary" onClick={() => console.log(this.instruments)}>Play All</button>
+                    <button className="btn btn-primary" onClick={this.playBlob}>Play All</button>
                 </div>
             </div>
         </div>
