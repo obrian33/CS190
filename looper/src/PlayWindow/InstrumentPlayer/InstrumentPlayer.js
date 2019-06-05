@@ -1,7 +1,7 @@
 import React from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import Microphone from './Instruments/Microphone';
-
+import keyboard_guitar from './keyboard_guitar2.png';
 class InstrumentPlayer extends React.Component {
     constructor(props) {
         super(props);
