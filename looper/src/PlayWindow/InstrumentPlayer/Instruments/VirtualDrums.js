@@ -1,7 +1,7 @@
 class VirtualDrums {
     id = 'Drums';
     trackList = [];
-    instructions = "The keys are mapped accordingly: ";
+    instructions = "";//The keys are mapped accordingly: ";
 
     notes = {
             'q': new Audio('./assets/sounds/drums/snare-acoustic01.wav'),
