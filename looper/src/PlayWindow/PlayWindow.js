@@ -30,12 +30,22 @@ const DisplayTracks = ({ playWindowState }) => {
     </div>
 }
 
+const sleep = (milliseconds) => {
+    let start = new Date().getTime();
+    for (let i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        break;
+      }
+    }
+  }
+
 const playTrack = (track) => {
-    track.data.forEach(value => {
-        if (value.currentAudioFile) {
-            value.currentAudioFile.cloneNode(true).play();
-        }
-    });
+    for (var i = 1; i < track.data.length; i++)
+    {
+        sleep(track.data[i].timeDifference);
+        console.log(track.data[i]);
+        track.data[i].currentAudioFile.play();
+    }
 }
 
 class PlayWindow extends React.Component {
