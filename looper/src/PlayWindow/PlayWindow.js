@@ -45,7 +45,7 @@ const playTrack = (track) => {
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
-    instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
+    instruments = [this.chosenInstrument, new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
     trackList = [];
     start;
     stop;
@@ -124,9 +124,35 @@ class PlayWindow extends React.Component {
         });
     }
 
-    playBlob = () => {
-        const audio = new Audio(this.state.currentAudioFile.blobURL);
-        audio.play();
+    trackVerification = (trackListToVerify, trackIndex) => {
+        return trackIndex < trackListToVerify.length
+            && trackListToVerify[trackIndex]
+            && trackListToVerify[trackIndex].currentAudioFile;
+    }
+
+    playAllTracks = () => {
+        for (let i = 0; i < 10; i += 1) {
+            if (this.trackVerification(this.instruments[0].trackList, i)) {
+                this.instruments[0].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            if (this.trackVerification(this.instruments[1].trackList, i)) {
+                this.instruments[1].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            // if (this.trackVerification(this.instruments[2].trackList, i)) {
+            //     this.instruments[2].trackList[i].currentAudioFile.cloneNode(true).play();
+            // }
+
+            if (this.trackVerification(this.instruments[3].trackList, i)) {
+                this.instruments[3].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            if (this.trackVerification(this.instruments[4].trackList, i)) {
+                this.instruments[4].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+        }
     }
 
     render() {
@@ -139,7 +165,7 @@ class PlayWindow extends React.Component {
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
-                    <button className="btn btn-primary" onClick={() => console.log(this.trackList)}>Play All</button>
+                    <button className="btn btn-primary" onClick={this.playAllTracks}>Play All</button>
                 </div>
             </div>
         </div>
