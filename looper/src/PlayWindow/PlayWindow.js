@@ -17,6 +17,10 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     </div>
 };
 
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
 const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
@@ -79,6 +83,8 @@ class PlayWindow extends React.Component {
             previousTime: 0,
             trackRecorderDisplayButton: this.start,
             currentAudioFile: null,
+            startTime: 0,
+            time: 0,
             blah: null
         }
     }
@@ -92,7 +98,8 @@ class PlayWindow extends React.Component {
             isRecording: !this.state.isRecording,
             previousTime: new Date().getTime(),
             trackRecorderDisplayButton: !this.state.isRecording ? this.stop : this.start,
-            trackList: this.trackList
+            trackList: this.trackList,
+            startTime: new Date().getTime()
         });
     }
 
