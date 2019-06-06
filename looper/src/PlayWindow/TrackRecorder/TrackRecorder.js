@@ -10,14 +10,19 @@ class TrackRecoder extends React.Component {
     constructor(props) {
         super(props);
         this.thing = React.createRef();
+       // this.startTime = 0;
     }
 
     componentDidUpdate() {
         if (this.props.playWindowState.isRecording) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
+            this.timeStamp = new Date().getTime();
+            let timeDiff = this.timeStamp - this.props.playWindowState.startTime;
             this.currentTrack.data.push({
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
-                previousTime: this.props.playWindowState.previousTime
+                //previousTime: this.props.playWindowState.previousTime
+                time: timeDiff
+                //realtime: this.timeStamp - this.startTime
             });
         } else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
