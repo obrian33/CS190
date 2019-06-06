@@ -31,11 +31,16 @@ const DisplayTracks = ({ playWindowState }) => {
 }
 
 const playTrack = (track) => {
-    track.data.forEach(value => {
-        if (value.currentAudioFile) {
-            value.currentAudioFile.cloneNode(true).play();
-        }
-    });
+    if (track.id !== 'Microphone') {
+        track.data.forEach(value => {
+            if (value.currentAudioFile) {
+                value.currentAudioFile.cloneNode(true).play();
+            }
+        });
+    } else {
+        const audio = new Audio(track.data[0].blobURL);
+        audio.play();
+    }
 }
 
 class PlayWindow extends React.Component {
@@ -109,6 +114,16 @@ class PlayWindow extends React.Component {
         });
     }
 
+    getBlob = (blob) => {
+        this.trackList.push({
+            id: 'Microphone',
+            data: [blob]
+        });
+        this.setState({
+            trackList: this.trackList
+        });
+    }
+
     playBlob = () => {
         const audio = new Audio(this.state.currentAudioFile.blobURL);
         audio.play();
@@ -119,12 +134,12 @@ class PlayWindow extends React.Component {
             <DashBoard changeInstrument={this.updateInstrument} instruments={this.instruments}></DashBoard>
             <div className="row">
                 <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
+                <InstrumentPlayer getBlob={this.getBlob} getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
                 <div className="col-3 text-center">
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
-                    <button className="btn btn-primary" onClick={this.playBlob}>Play All</button>
+                    <button className="btn btn-primary" onClick={() => console.log(this.trackList)}>Play All</button>
                 </div>
             </div>
         </div>

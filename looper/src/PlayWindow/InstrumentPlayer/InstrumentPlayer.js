@@ -37,7 +37,7 @@ class InstrumentPlayer extends React.Component {
             return (<div className="col-6 text-center">
                 <h3>Selected Instrument: </h3>
                 {this.props.playWindowState.currentInstrument.id}
-                <Microphone getAudioFile={this.props.getAudioFile} playWindowState={this.props.playWindowState}></Microphone>
+                <Microphone getBlob={this.props.getBlob} playWindowState={this.props.playWindowState}></Microphone>
             </div>)
         } else {
             return <div className="col-6 text-center">
@@ -52,7 +52,7 @@ class InstrumentPlayer extends React.Component {
                     }
                 >
                 </KeyboardEventHandler>
-                <img src={this.display_image} />
+                <img src={this.display_image} alt=''/>
             </div>
         }
     }

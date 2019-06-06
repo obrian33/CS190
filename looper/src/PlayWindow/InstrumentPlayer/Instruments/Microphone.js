@@ -9,11 +9,10 @@ class Microphone extends React.Component {
     render() {
         return <div className="col-6 text-center">
             <ReactMicRecord
-                onData={(recordedBlob) => this.props.getAudioFile(recordedBlob)}
                 record={this.props.playWindowState.isRecording}
                 onStop={(recordedBlob) => {
                     this.trackList.push(recordedBlob);
-                    this.props.getAudioFile(recordedBlob);
+                    this.props.getBlob(recordedBlob);
                 }} />
         </div>
     }

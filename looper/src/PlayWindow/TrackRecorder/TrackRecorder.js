@@ -19,7 +19,7 @@ class TrackRecoder extends React.Component {
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
                 previousTime: this.props.playWindowState.previousTime
             });
-        } else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
+        } else if (!this.props.playWindowState.isRecording && this.currentTrack.id && this.currentTrack.id !== 'Microphone') {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
             this.currentTrack = {
