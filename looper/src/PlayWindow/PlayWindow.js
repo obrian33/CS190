@@ -17,10 +17,6 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     </div>
 };
 
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
-
 const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
