@@ -22,7 +22,7 @@ const DisplayTracks = ({ playWindowState }) => {
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
                 <i onClick={() => playTrack(track)}>
-                    <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
+                    <img alt="" className="thing m-3" src={`./assets/${track.id}.svg`}></img>
                 </i>
             </div>
         })
@@ -165,7 +165,7 @@ class PlayWindow extends React.Component {
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
-                    <button className="btn btn-primary" onClick={this.playAllTracks}>Play All</button>
+                    <button type="button" className="btn btn-primary m-3" onClick={this.playAllTracks}>Play All</button>
                 </div>
             </div>
         </div>

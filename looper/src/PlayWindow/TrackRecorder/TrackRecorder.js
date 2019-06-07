@@ -31,9 +31,7 @@ class TrackRecoder extends React.Component {
     }
 
     render() {
-        return (<div>
-            <button ref={this.thing} type="button" className="btn btn-primary" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
-        </div>);
+        return <button ref={this.thing} type="button" className="btn btn-primary m-3" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
     }
 }
 
