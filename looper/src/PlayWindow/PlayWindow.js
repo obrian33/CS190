@@ -9,7 +9,7 @@ import VirtualBass from './InstrumentPlayer/Instruments/VirtualBass';
 import Microphone from './InstrumentPlayer/Instruments/Microphone';
 
 const DisplayInstrumentInstructions = ({ playWindowState }) => {
-    return <div className="col-3 text-center">
+    return <div className="m-5">
         <h3>Instructions:</h3>
         <div>
             {playWindowState.currentInstrument.instructions}
@@ -159,10 +159,13 @@ class PlayWindow extends React.Component {
         return (<div className="container-fluid">
             <DashBoard changeInstrument={this.updateInstrument} instruments={this.instruments}></DashBoard>
             <div className="row">
-                <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer getBlob={this.getBlob} getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
-                <div className="col-3 text-center">
-                    <h3>Tracks</h3>
+                <div className="col-4 text-center"></div>
+                <div className="col-4 text-center">
+                    <InstrumentPlayer getBlob={this.getBlob} getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
+                    <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
+                </div>
+                <div className="col-4 text-center">
+                    <h2 className="m-3">Tracks</h2>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                     <button type="button" className="btn btn-primary m-3" onClick={this.playAllTracks}>Play All</button>
