@@ -96,6 +96,10 @@ class PlayWindow extends React.Component {
         });
     }
 
+    playAll = () => {
+        this.trackList.forEach(x => playTrack(x));
+    }
+
     updateInstrument = (chosenInstrument) => {
         this.chosenInstrument = chosenInstrument;
         if (chosenInstrument !== this.state.currentInstrument) {
@@ -134,7 +138,7 @@ class PlayWindow extends React.Component {
                     <h3>Tracks</h3>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
-                    <button className="btn btn-primary" onClick={this.playBlob}>Play All</button>
+                    <button className="btn btn-primary" onClick={this.playAll}>Play All</button> 
                 </div>
             </div>
         </div>

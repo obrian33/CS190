@@ -10,27 +10,34 @@ class TrackRecoder extends React.Component {
     constructor(props) {
         super(props);
         this.thing = React.createRef();
+        this.pressed = false;
        // this.startTime = 0;
     }
 
     componentDidUpdate() {
-        if (this.props.playWindowState.isRecording) {
+        if (this.props.playWindowState.isRecording && this.pressed) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.timeStamp = new Date().getTime();
             let timeDiff = this.timeStamp - this.props.playWindowState.startTime;
+            console.log("pushed");
             this.currentTrack.data.push({
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
                 //previousTime: this.props.playWindowState.previousTime
                 time: timeDiff
                 //realtime: this.timeStamp - this.startTime
             });
-        } else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
+        }
+        if (this.props.playWindowState.isRecording && !this.pressed) {
+            this.pressed = true;
+         }
+          else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
             this.currentTrack = {
                 id: null,
                 data: []
             };
+            this.pressed = false;
         }
         this.thing.current.blur();
     }
