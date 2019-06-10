@@ -9,7 +9,7 @@ import VirtualBass from './InstrumentPlayer/Instruments/VirtualBass';
 import Microphone from './InstrumentPlayer/Instruments/Microphone';
 
 const DisplayInstrumentInstructions = ({ playWindowState }) => {
-    return <div className="col-3 text-center">
+    return <div className="m-5">
         <h3>Instructions:</h3>
         <div>
             {playWindowState.currentInstrument.instructions}
@@ -26,7 +26,7 @@ const DisplayTracks = ({ playWindowState }) => {
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
                 <i onClick={() => playTrack(track, stopTime)}>
-                    <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
+                    <img alt="" className="thing m-3" src={`./assets/${track.id}.svg`}></img>
                 </i>
             </div>
         })
@@ -48,32 +48,43 @@ const playTrack = async (track, stopTime) => {
         if (callToStop) {
             return;
         }
-        track.data.forEach(value => {
-            if (value.currentAudioFile) {
-                waitTime = value.timeDiff;
-                if (!hitFirst) {
-                    hitFirst = true;
-                    firstWait = value.timeDiff;
-                    waitTime = 0;
+        if (track.id !== 'Microphone') {
+            track.data.forEach(value => {
+                if (value.currentAudioFile) {
+                    waitTime = value.timeDiff;
+                    if (!hitFirst) {
+                        hitFirst = true;
+                        firstWait = value.timeDiff;
+                        waitTime = 0;
+                    }
+                    totalWait = value.timeDiff;
+                    sleep(waitTime).then(() => {
+                        value.currentAudioFile.cloneNode(true).play();
+                    });
+                    lastWait = value.timeStamp;
                 }
-                totalWait = value.timeDiff;
-                sleep(waitTime).then(() => {
-                    value.currentAudioFile.cloneNode(true).play();
-                });
-                lastWait = value.timeStamp;
-            }
-        });
-        let promise = new Promise(resolve => {
-            setTimeout(() => resolve("done"), totalWait + stopTime - lastWait - firstWait);
-        });
-        totalWait = 0;
-        await promise;
+            });
+            let promise = new Promise(resolve => {
+                setTimeout(() => resolve("done"), totalWait + stopTime - lastWait - firstWait);
+            });
+            totalWait = 0;
+            await promise;
+        }
+        else {
+            const audio = new Audio(track.data[0].blobURL);
+            console.log(track.data);
+            audio.play();
+            let promise = new Promise(resolve => {
+                setTimeout(() => resolve("done"), track.data[0].stopTime - track.data[0].startTime);
+            });
+            await promise;
+        }
     }
 }
 
 class PlayWindow extends React.Component {
     chosenInstrument = new VirtualGuitar();
-    instruments = [new VirtualGuitar(), new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
+    instruments = [this.chosenInstrument, new VirtualDrums(), new Microphone(), new VirtualPiano(), new VirtualBass()];
     trackList = [];
     start;
     stop;
@@ -150,9 +161,45 @@ class PlayWindow extends React.Component {
         });
     }
 
-    playBlob = () => {
-        const audio = new Audio(this.state.currentAudioFile.blobURL);
-        audio.play();
+    getBlob = (blob) => {
+        this.trackList.push({
+            id: 'Microphone',
+            data: [blob]
+        });
+        this.setState({
+            trackList: this.trackList
+        });
+    }
+
+    trackVerification = (trackListToVerify, trackIndex) => {
+        return trackIndex < trackListToVerify.length
+            && trackListToVerify[trackIndex]
+            && trackListToVerify[trackIndex].currentAudioFile;
+    }
+
+    playAllTracks = () => {
+        for (let i = 0; i < 10; i += 1) {
+            if (this.trackVerification(this.instruments[0].trackList, i)) {
+                this.instruments[0].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            if (this.trackVerification(this.instruments[1].trackList, i)) {
+                this.instruments[1].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            // if (this.trackVerification(this.instruments[2].trackList, i)) {
+            //     this.instruments[2].trackList[i].currentAudioFile.cloneNode(true).play();
+            // }
+
+            if (this.trackVerification(this.instruments[3].trackList, i)) {
+                this.instruments[3].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+            if (this.trackVerification(this.instruments[4].trackList, i)) {
+                this.instruments[4].trackList[i].currentAudioFile.cloneNode(true).play();
+            }
+
+        }
     }
 
     callStop = () => {
@@ -168,10 +215,13 @@ class PlayWindow extends React.Component {
         return (<div className="container-fluid">
             <DashBoard changeInstrument={this.updateInstrument} instruments={this.instruments}></DashBoard>
             <div className="row">
-                <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
-                <InstrumentPlayer getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
-                <div className="col-3 text-center">
-                    <h3>Tracks</h3>
+                <div className="col-4 text-center"></div>
+                <div className="col-4 text-center">
+                    <InstrumentPlayer getBlob={this.getBlob} getAudioFile={this.getAudioFile} playWindowState={this.state}></InstrumentPlayer>
+                    <DisplayInstrumentInstructions playWindowState={this.state}></DisplayInstrumentInstructions>
+                </div>
+                <div className="col-4 text-center">
+                    <h2 className="m-3">Tracks</h2>
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                     <button className="btn btn-primary" onClick={this.playAll}>Play All</button> 

@@ -1,6 +1,6 @@
 class VirtualPiano {
     id = 'Piano';
-    instructions = "";
+    instructions = '';
     trackList = [];
 
     notes = {

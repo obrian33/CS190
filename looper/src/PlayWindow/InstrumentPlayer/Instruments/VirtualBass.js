@@ -2,7 +2,7 @@ import React from 'react';
 
 class VirtualBass extends React.Component {
     id = 'Bass';
-    instructions = "";//The keys are mapped accordingly: Q is C1, W is C#1, E is D1, R is D#1, T is E1, Y is F1, U is F#1, I is G1, O is G#1, P is A1, [ is A#1, ] is B1";
+    instructions = 'The keys are mapped accordingly: Q is C1, W is C#1, E is D1, R is D#1, T is E1, Y is F1, U is F#1, I is G1, O is G#1, P is A1, [ is A#1, ] is B1';
     trackList = [];
 
     notes = {

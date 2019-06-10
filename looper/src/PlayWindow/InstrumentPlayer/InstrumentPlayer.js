@@ -34,15 +34,15 @@ class InstrumentPlayer extends React.Component {
         }
         if (this.props.playWindowState.currentInstrument.id === 'Microphone') {
 
-            return (<div className="col-6 text-center">
-                <h3>Selected Instrument: </h3>
-                {this.props.playWindowState.currentInstrument.id}
-                <Microphone getAudioFile={this.props.getAudioFile} playWindowState={this.props.playWindowState}></Microphone>
+            return (<div className="m-3">
+                <h2>Selected Instrument: </h2>
+                <h3>{this.props.playWindowState.currentInstrument.id}</h3>
+                <Microphone getBlob={this.props.getBlob} playWindowState={this.props.playWindowState}></Microphone>
             </div>)
         } else {
-            return <div className="col-6 text-center">
-                <h3>Selected Instrument: </h3>
-                    {this.props.playWindowState.currentInstrument.id}
+            return <div className="m-3">
+                <h2>Selected Instrument: </h2>
+                    <h3>{this.props.playWindowState.currentInstrument.id}</h3>
                     <KeyboardEventHandler     
                     handleKeys={['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']']}
                     onKeyEvent={(key) => {
@@ -52,7 +52,7 @@ class InstrumentPlayer extends React.Component {
                     }
                 >
                 </KeyboardEventHandler>
-                <img src={this.display_image} />
+                <img className="m-3" src={this.display_image} alt=''/>
             </div>
         }
     }

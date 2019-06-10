@@ -22,16 +22,11 @@ class TrackRecoder extends React.Component {
             console.log("pushed");
             this.currentTrack.data.push({
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
-                //previousTime: this.props.playWindowState.previousTime
                 timeDiff: timeDiff,
                 timeStamp: this.timeStamp
-                //realtime: this.timeStamp - this.startTime
             });
         }
-        if (this.props.playWindowState.isRecording && !this.pressed) {
-            this.pressed = true;
-        }
-          else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
+        else if (!this.props.playWindowState.isRecording && this.currentTrack.id && this.currentTrack.id !== 'Microphone') {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
             this.currentTrack = {
@@ -40,15 +35,14 @@ class TrackRecoder extends React.Component {
             };
             this.pressed = false;
         }
+        if (this.props.playWindowState.isRecording && !this.pressed) {
+            this.pressed = true;
+        }
         this.thing.current.blur();
     }
 
     render() {
-        return (<div>
-            <button ref={this.thing} type="button" className="btn btn-primary" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
-            <br />
-            <br />
-        </div>);
+        return <button ref={this.thing} type="button" className="btn btn-primary m-3" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
     }
 }
 
