@@ -25,7 +25,7 @@ const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
-                <i onClick={() => playTrack(track)}>
+                <i onClick={() => playTrack(track, stopTime)}>
                     <img alt="" className="thing" src={`./assets/${track.id}.svg`}></img>
                 </i>
             </div>
@@ -34,15 +34,41 @@ const DisplayTracks = ({ playWindowState }) => {
     </div>
 }
 
-const playTrack = (track) => {
-    track.data.forEach(value => {
-        if (value.currentAudioFile) {
-            sleep(value.time).then(() => {
-                value.currentAudioFile.cloneNode(true).play();
-                console.log(value.time);
-              })
+var callToStop = false;
+var stopTime = 0;
+
+const playTrack = async (track, stopTime) => {
+    var totalWait = 0;
+    var firstWait = 0;
+    var hitFirst = false;
+    var lastWait = 0;
+    var waitTime = 0;
+    callToStop = false;
+    while (true) {
+        if (callToStop) {
+            return;
         }
-    });
+        track.data.forEach(value => {
+            if (value.currentAudioFile) {
+                waitTime = value.timeDiff;
+                if (!hitFirst) {
+                    hitFirst = true;
+                    firstWait = value.timeDiff;
+                    waitTime = 0;
+                }
+                totalWait = value.timeDiff;
+                sleep(waitTime).then(() => {
+                    value.currentAudioFile.cloneNode(true).play();
+                });
+                lastWait = value.timeStamp;
+            }
+        });
+        let promise = new Promise(resolve => {
+            setTimeout(() => resolve("done"), totalWait + stopTime - lastWait - firstWait);
+        });
+        totalWait = 0;
+        await promise;
+    }
 }
 
 class PlayWindow extends React.Component {
@@ -54,6 +80,7 @@ class PlayWindow extends React.Component {
 
     constructor(props) {
         super(props);
+        this.stopTime = 0;
         this.updateInstrument = this.updateInstrument.bind(this);
         this.getAudioFile = this.getAudioFile.bind(this);
         this.getCurrentTrack = this.getCurrentTrack.bind(this);
@@ -65,7 +92,7 @@ class PlayWindow extends React.Component {
         };
         this.stop = {
             buttonFunction: this.recordingAction,
-            buttonText: 'Stop'
+            buttonText: 'Stop Recording'
         }
 
         this.state = {
@@ -85,8 +112,8 @@ class PlayWindow extends React.Component {
     recordingAction = () => {
         if (this.state.isRecording) {
             this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
+            stopTime = new Date().getTime();
         }
-
         this.setState({
             isRecording: !this.state.isRecording,
             previousTime: new Date().getTime(),
@@ -97,7 +124,7 @@ class PlayWindow extends React.Component {
     }
 
     playAll = () => {
-        this.trackList.forEach(x => playTrack(x));
+        this.trackList.forEach(x => playTrack(x, stopTime));
     }
 
     updateInstrument = (chosenInstrument) => {
@@ -128,6 +155,15 @@ class PlayWindow extends React.Component {
         audio.play();
     }
 
+    callStop = () => {
+        if (!callToStop) {
+            callToStop = true;
+        }
+        else {
+            callToStop = false;
+        }
+    }
+
     render() {
         return (<div className="container-fluid">
             <DashBoard changeInstrument={this.updateInstrument} instruments={this.instruments}></DashBoard>
@@ -139,6 +175,9 @@ class PlayWindow extends React.Component {
                     <DisplayTracks playWindowState={this.state}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                     <button className="btn btn-primary" onClick={this.playAll}>Play All</button> 
+                    <br />
+                    <br />
+                    <button className="btn btn-primary" onClick={this.callStop}>Stop Playback</button>
                 </div>
             </div>
         </div>

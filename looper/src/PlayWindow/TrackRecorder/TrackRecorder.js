@@ -23,13 +23,14 @@ class TrackRecoder extends React.Component {
             this.currentTrack.data.push({
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
                 //previousTime: this.props.playWindowState.previousTime
-                time: timeDiff
+                timeDiff: timeDiff,
+                timeStamp: this.timeStamp
                 //realtime: this.timeStamp - this.startTime
             });
         }
         if (this.props.playWindowState.isRecording && !this.pressed) {
             this.pressed = true;
-         }
+        }
           else if (!this.props.playWindowState.isRecording && this.currentTrack.id) {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
@@ -45,6 +46,8 @@ class TrackRecoder extends React.Component {
     render() {
         return (<div>
             <button ref={this.thing} type="button" className="btn btn-primary" onClick={() => this.props.trackRecorderDisplayButton.buttonFunction()}>{this.props.trackRecorderDisplayButton.buttonText}</button>
+            <br />
+            <br />
         </div>);
     }
 }
