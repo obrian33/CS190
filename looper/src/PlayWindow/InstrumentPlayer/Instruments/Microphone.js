@@ -7,8 +7,9 @@ class Microphone extends React.Component {
     trackList = [];
 
     render() {
-        return <div className="col-6 text-center">
+        return <div>
             <ReactMicRecord
+                className="w-100"
                 record={this.props.playWindowState.isRecording}
                 onStop={(recordedBlob) => {
                     this.trackList.push(recordedBlob);

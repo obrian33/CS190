@@ -7,6 +7,8 @@ import VirtualDrums from './InstrumentPlayer/Instruments/VirtualDrums';
 import VirtualPiano from './InstrumentPlayer/Instruments/VirtualPiano';
 import VirtualBass from './InstrumentPlayer/Instruments/VirtualBass';
 import Microphone from './InstrumentPlayer/Instruments/Microphone';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const DisplayInstrumentInstructions = ({ playWindowState }) => {
     return <div className="m-5">
@@ -21,14 +23,6 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     </div>
 };
 
-// const DisplayInstrumentInstructions = ({ playWindowState }) => {
-//     return <div className="m-5">
-//         <h3>Instructions:</h3>
-//         <div>
-//             {playWindowState.currentInstrument.instructions}
-//         </div>
-//     </div>
-// };
 
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -37,26 +31,18 @@ const sleep = (milliseconds) => {
 
 var callToStop = false;
 
-const DisplayTracks = ({ playWindowState }) => {
+const DisplayTracks = ({ playWindowState, removeTrack}) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
                 <i onClick={() => playTrack(track, track.stopTime)}>
                     <img alt="" className="thing m-3" src={`./assets/${track.id}.svg`}></img>
                 </i>
-                <button onClick={() => removeTrack(playWindowState,index)}>x</button>
+                <FontAwesomeIcon color="red" icon={faTimesCircle} onClick={() => removeTrack(index)}></FontAwesomeIcon>
             </div>
         })
         }
     </div>
-}
-
-const removeTrack =  (state, index) => {
-    console.log(state.trackList);
-    if (index > -1) {
-        state.trackList.splice(index, 1);
-    }
-    console.log(state.trackList);
 }
 
 const playTrack = async (track, stopTime) => {
@@ -82,7 +68,6 @@ const playTrack = async (track, stopTime) => {
                     });
                 }
             });
-            console.log(track.id, stopTime);
             var promise = new Promise(resolve => {
                 setTimeout(() => resolve("done"), stopTime - firstTime);
             })
@@ -134,6 +119,15 @@ class PlayWindow extends React.Component {
             time: 0,
             blah: null
         }
+    }
+
+    removeTrack =  (index) => {
+        if (index > -1) {
+            this.state.trackList.splice(index, 1);
+        }
+        this.setState({
+            trackList: this.state.trackList
+        });
     }
 
     recordingAction = () => {
@@ -213,15 +207,6 @@ class PlayWindow extends React.Component {
         }
     }
 
-    
-    callStop = () => {
-        if (!callToStop) {
-            callToStop = true;
-        }
-        else {
-            callToStop = false;
-        }
-    }
 
     render() {
         return (<div className="container-fluid">
@@ -234,12 +219,12 @@ class PlayWindow extends React.Component {
                 </div>
                 <div className="col-4 text-center">
                     <h2 className="m-3">Tracks</h2>
-                    <DisplayTracks playWindowState={this.state}></DisplayTracks>
+                    <DisplayTracks playWindowState={this.state} removeTrack={this.removeTrack}></DisplayTracks>
                     <TrackRecorder getCurrentTrack={this.getCurrentTrack} playWindowState={this.state} trackRecorderDisplayButton={this.state.trackRecorderDisplayButton}></TrackRecorder>
                     <button className="btn btn-primary" onClick={this.playAll}>Play All</button> 
                     <br />
                     <br />
-                    <button className="btn btn-primary" onClick={this.callStop}>Stop Playback</button>
+                    <button className="btn btn-primary" onClick={() => callToStop = !callToStop}>Stop Playback</button>
                 </div>
             </div>
         </div>
