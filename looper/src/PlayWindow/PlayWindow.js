@@ -12,10 +12,23 @@ const DisplayInstrumentInstructions = ({ playWindowState }) => {
     return <div className="m-5">
         <h3>Instructions:</h3>
         <div>
-            {playWindowState.currentInstrument.instructions}
+            <p>Press any of the above keys to play the indicated sound. Begin recording input by pressing the "Record" button.
+                Stop recording by pressing the "Stop Recording" button. Recorded tracks can be played individually by clicking 
+                on the track icons (which will appear after making a recording). Clicking the "Play All" button will play all
+                tracks simultaneously. Playback can be stopped by clicking the "Stop Playback" button. 
+            </p>
         </div>
     </div>
 };
+
+// const DisplayInstrumentInstructions = ({ playWindowState }) => {
+//     return <div className="m-5">
+//         <h3>Instructions:</h3>
+//         <div>
+//             {playWindowState.currentInstrument.instructions}
+//         </div>
+//     </div>
+// };
 
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
