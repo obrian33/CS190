@@ -25,7 +25,7 @@ const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
             return <div key={index}>
-                <i onClick={() => playTrack(track, stopTime)}>
+                <i onClick={() => playTrack(track, track.stopTime)}>
                     <img alt="" className="thing m-3" src={`./assets/${track.id}.svg`}></img>
                 </i>
             </div>
@@ -35,7 +35,6 @@ const DisplayTracks = ({ playWindowState }) => {
 }
 
 var callToStop = false;
-var stopTime = 0;
 
 const playTrack = async (track, stopTime) => {
     var firstTime = 0;
@@ -60,6 +59,7 @@ const playTrack = async (track, stopTime) => {
                     });
                 }
             });
+            console.log(track.id, stopTime);
             var promise = new Promise(resolve => {
                 setTimeout(() => resolve("done"), stopTime - firstTime);
             })
@@ -85,7 +85,6 @@ class PlayWindow extends React.Component {
 
     constructor(props) {
         super(props);
-        this.stopTime = 0;
         this.updateInstrument = this.updateInstrument.bind(this);
         this.getAudioFile = this.getAudioFile.bind(this);
         this.getCurrentTrack = this.getCurrentTrack.bind(this);
@@ -117,8 +116,6 @@ class PlayWindow extends React.Component {
     recordingAction = () => {
         if (this.state.isRecording) {
             this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
-            stopTime = new Date().getTime();
-            console.log("hit stop");
         }
         this.setState({
             isRecording: !this.state.isRecording,
@@ -130,7 +127,7 @@ class PlayWindow extends React.Component {
     }
 
     playAll = () => {
-        this.trackList.forEach(x => playTrack(x, stopTime));
+        this.trackList.forEach(x => playTrack(x, x.stopTime));
     }
 
     updateInstrument = (chosenInstrument) => {

@@ -4,14 +4,14 @@ class TrackRecoder extends React.Component {
     trackList = [];
     currentTrack = {
         id: null,
-        data: []
+        data: [],
+        stopTime: null
     };
 
     constructor(props) {
         super(props);
         this.thing = React.createRef();
         this.pressed = false;
-       // this.startTime = 0;
     }
 
     componentDidUpdate() {
@@ -19,14 +19,15 @@ class TrackRecoder extends React.Component {
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.timeStamp = new Date().getTime();
             let timeDiff = this.timeStamp - this.props.playWindowState.startTime;
-            console.log("pushed");
             this.currentTrack.data.push({
                 currentAudioFile: this.props.playWindowState.currentAudioFile,
                 timeDiff: timeDiff,
                 timeStamp: this.timeStamp
             });
+            this.currentTrack.stopTime = this.timeStamp;
         }
         else if (!this.props.playWindowState.isRecording && this.currentTrack.id && this.currentTrack.id !== 'Microphone') {
+            this.currentTrack.stopTime = new Date().getTime();
             this.currentTrack.id = this.props.playWindowState.currentInstrument.id;
             this.props.getCurrentTrack(this.currentTrack);
             this.currentTrack = {
