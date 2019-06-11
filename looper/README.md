@@ -1,3 +1,7 @@
+Make sure you've installed Node beforehand:
+
+Clone the repo into your own project directory and once done run npm install to install all dependencies, then npm start to run locally.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
