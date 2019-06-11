@@ -21,6 +21,9 @@ const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
+
+var callToStop = false;
+
 const DisplayTracks = ({ playWindowState }) => {
     return <div>
         {playWindowState.trackList.map((track, index) => {
@@ -28,13 +31,20 @@ const DisplayTracks = ({ playWindowState }) => {
                 <i onClick={() => playTrack(track, track.stopTime)}>
                     <img alt="" className="thing m-3" src={`./assets/${track.id}.svg`}></img>
                 </i>
+                <button onClick={() => removeTrack(playWindowState,index)}>x</button>
             </div>
         })
         }
     </div>
 }
 
-var callToStop = false;
+const removeTrack =  (state, index) => {
+    console.log(state.trackList);
+    if (index > -1) {
+        state.trackList.splice(index, 1);
+    }
+    console.log(state.trackList);
+}
 
 const playTrack = async (track, stopTime) => {
     var firstTime = 0;
@@ -190,6 +200,7 @@ class PlayWindow extends React.Component {
         }
     }
 
+    
     callStop = () => {
         if (!callToStop) {
             callToStop = true;
