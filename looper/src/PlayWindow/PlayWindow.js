@@ -38,10 +38,8 @@ var callToStop = false;
 var stopTime = 0;
 
 const playTrack = async (track, stopTime) => {
-    var totalWait = 0;
-    var firstWait = 0;
+    var firstTime = 0;
     var hitFirst = false;
-    var lastWait = 0;
     var waitTime = 0;
     callToStop = false;
     while (true) {
@@ -54,27 +52,23 @@ const playTrack = async (track, stopTime) => {
                     waitTime = value.timeDiff;
                     if (!hitFirst) {
                         hitFirst = true;
-                        firstWait = value.timeDiff;
+                        firstTime = value.timeStamp;
                         waitTime = 0;
                     }
-                    totalWait = value.timeDiff;
                     sleep(waitTime).then(() => {
                         value.currentAudioFile.cloneNode(true).play();
                     });
-                    lastWait = value.timeStamp;
                 }
             });
-            let promise = new Promise(resolve => {
-                setTimeout(() => resolve("done"), totalWait + stopTime - lastWait - firstWait);
-            });
-            totalWait = 0;
+            var promise = new Promise(resolve => {
+                setTimeout(() => resolve("done"), stopTime - firstTime);
+            })
             await promise;
         }
         else {
             const audio = new Audio(track.data[0].blobURL);
-            console.log(track.data);
             audio.play();
-            let promise = new Promise(resolve => {
+            var promise = new Promise(resolve => {
                 setTimeout(() => resolve("done"), track.data[0].stopTime - track.data[0].startTime);
             });
             await promise;
@@ -124,6 +118,7 @@ class PlayWindow extends React.Component {
         if (this.state.isRecording) {
             this.state.currentInstrument.trackList.push(this.state.currentInstrument.currentTrack);
             stopTime = new Date().getTime();
+            console.log("hit stop");
         }
         this.setState({
             isRecording: !this.state.isRecording,
@@ -186,10 +181,6 @@ class PlayWindow extends React.Component {
             if (this.trackVerification(this.instruments[1].trackList, i)) {
                 this.instruments[1].trackList[i].currentAudioFile.cloneNode(true).play();
             }
-
-            // if (this.trackVerification(this.instruments[2].trackList, i)) {
-            //     this.instruments[2].trackList[i].currentAudioFile.cloneNode(true).play();
-            // }
 
             if (this.trackVerification(this.instruments[3].trackList, i)) {
                 this.instruments[3].trackList[i].currentAudioFile.cloneNode(true).play();
