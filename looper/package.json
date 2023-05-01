@@ -17,7 +17,7 @@
     "react-keyboard-event-handler": "^1.4.1",
     "react-mic-record": "^1.0.6",
     "react-record": "^1.0.5",
-    "react-scripts": "3.0.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
